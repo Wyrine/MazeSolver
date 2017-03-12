@@ -1,18 +1,19 @@
-OBJS = file.o maze.o stacks.o 
+OBJS = stacks.o file.o maze.o
 CC = g++
 DEBUG = -g
 LFLAGS = -Wall $(DEBUG)
-CFLAGS = -Wall -c $(DEBUG)
+CFLAGS = -c
 
-maze: $(OBJS)
-	$(CC) $(LFLAGS) $(OBJS) -o mazeRunner 
+mazeRunner: $(OBJS)
+	$(CC) $(LFLAGS) $(OBJS) -o mazeRunner
 
-file.o: file.cpp file.h
-	$(CC) $(CFLAGS) -o file.cpp
-maze.o: maze.cpp proto.h 
-	$(CC) $(CFLAGS) -o maze.cpp
 stacks.o: stacks.cpp stacks.h
-	$(CC) $(CFLAGS) -o stacks.cpp
+	$(CC) $(CFLAGS) stacks.cpp
+file.o: file.cpp file.h
+	$(CC) $(CFLAGS) file.cpp
+maze.o: maze.cpp proto.h
+	$(CC) $(CFLAGS) maze.cpp
 
-clean: 
+
+clean:
 	$(RM) maze *.o
