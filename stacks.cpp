@@ -87,7 +87,8 @@ bool Stacks::goMove(string direction){
 }
 
 bool Stacks::goMoveDecision(string direction){
-  bool returnBool = goMove(direction);
+  //bool returnBool = goMove(direction);
+  return goMove(direction);
 }
 void Stacks::popToDecision(){
 

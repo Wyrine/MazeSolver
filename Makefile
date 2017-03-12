@@ -14,6 +14,5 @@ file.o: file.cpp file.h
 maze.o: maze.cpp proto.h
 	$(CC) $(CFLAGS) maze.cpp
 
-
 clean:
 	$(RM) maze *.o
