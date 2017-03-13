@@ -1,6 +1,8 @@
 #pragma once
 #include "file.h"
 
+enum Paths{LEFT=0, DOWN, UP, RIGHT};
+
 struct Location{
   int curRow, curCol;
   bool operator !=(const Location& arg){
@@ -23,11 +25,11 @@ public:
   bool solved(){ return (moves.back() != exitLoc) ? false: true; }
   void writeCurrentLocation(Location m, char path = '*');
   void printMaze();
-  bool canGo(string direction);
+  bool canGo(Paths direction);
   void quitMaze();
-  int checkDirections(string ignoredDirec = "");
-  bool goMove(string direction);
+  int checkDirections(Paths ignoredDirec);
+  bool goMove(Paths direction);
   //I think this function is useless
-  bool goMoveDecision(string direction);
+  bool goMoveDecision(Paths direction);
   void popToDecision();
 };

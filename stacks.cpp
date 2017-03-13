@@ -54,8 +54,8 @@ void Stacks::findExit(){
 //this checks how many valid paths there are from the current Location
 //and returns that count. If an string is passed as a parameter then it
 //does not include that direction in the count
-int Stacks::checkDirections(string ignoredDirec){
-  string validDirecs[] = {"left", "down", "up", "right"};
+int Stacks::checkDirections(Paths ignoredDirec){
+  Paths validDirecs[] = {LEFT, DOWN, UP, RIGHT};
   int validPaths = 0;
   for(int i=0; i < 4; i++)
     if(validDirecs[i] != ignoredDirec && canGo(validDirecs[i]))
@@ -78,47 +78,59 @@ void Stacks::printMaze(){
 //canGo takes a string parameter being either "left", "right", "down",
 //or "up" and this checks to see if that direction is a Location
 //that can be moved to, if so then it returns true, otherwise false
-bool Stacks::canGo(string direction){
-  if(direction == "left")
-    return (maze[moves.back().curRow][moves.back().curCol-1] == ' ') ? true : false;
-  else if(direction == "down")
-    return (maze[moves.back().curRow+1][moves.back().curCol] == ' ') ? true : false;
-  else if(direction == "up")
-    return (maze[moves.back().curRow-1][moves.back().curCol] == ' ') ? true : false;
-  else if(direction == "right")
-    return (maze[moves.back().curRow][moves.back().curCol+1] == ' ') ? true : false;
-  return false;
+bool Stacks::canGo(Paths direction){
+  int thisRow = moves.back().curRow;
+  int thisCol = moves.back().curCol;
+  switch (direction){
+    case LEFT:
+      return (maze[thisRow][thisCol-1] == ' ') ? true : false;
+    case DOWN:
+      return (maze[thisRow+1][thisCol] == ' ') ? true : false;
+    case UP:
+      return (maze[thisRow-1][thisCol] == ' ') ? true : false;
+    case RIGHT:
+      return (maze[thisRow][thisCol+1] == ' ') ? true : false;
+    default:
+      return false;
+  }
 }
 
 //goMove moves the path of the direction string passed and returns the solved
 //state of the maze, true if solved, false otherwise
-bool Stacks::goMove(string direction){
-  if (direction == "left"){
-    Location m = {moves.back().curRow, moves.back().curCol-1};
-    writeCurrentLocation(m);
-    moves.push_back(m);
-    return solved();
-  } else if (direction == "right"){
-    Location m = {moves.back().curRow, moves.back().curCol+1};
-    writeCurrentLocation(m);
-    moves.push_back(m);
-    return solved();
-  } else if (direction == "down"){
-    Location m = {moves.back().curRow+1, moves.back().curCol};
-    writeCurrentLocation(m);
-    moves.push_back(m);
-    return solved();
-  } else if (direction == "up"){
-    Location m = {moves.back().curRow-1, moves.back().curCol};
-    writeCurrentLocation(m);
-    moves.push_back(m);
-    return solved();
-  } return false;
+bool Stacks::goMove(Paths direction){
+  Location m = {moves.back().curRow, moves.back().curCol};
+  switch (direction){
+    case LEFT:
+      m.curCol -= 1;
+      writeCurrentLocation(m);
+      moves.push_back(m);
+      return solved();
+    case DOWN:
+      m.curCol += 1;
+      writeCurrentLocation(m);
+      moves.push_back(m);
+      return solved();
+    case UP:
+      m.curRow += 1;
+      writeCurrentLocation(m);
+      moves.push_back(m);
+      return solved();
+    case RIGHT:
+      m.curRow -= 1;
+      writeCurrentLocation(m);
+      moves.push_back(m);
+      return solved();
+    default:
+      return false;
+  }
 }
 
-bool Stacks::goMoveDecision(string direction){
-  //bool returnBool = goMove(direction);
-  return goMove(direction);
+bool Stacks::goMoveDecision(Paths direction){
+  int numPaths = checkDirections(direction);
+  if(numPaths > 0){
+    return goMove(direction);
+  }
+  return false;
 }
 
 void Stacks::popToDecision(){
