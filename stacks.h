@@ -15,10 +15,10 @@ public:
   vector<Location> decisions, moves;
   int rows, cols;
   Stacks();
-  void enterMaze();
+  void enterMaze() { Location m = {0, 1}; }
   void findExit();
   bool solved();
-  void writeCurrentLocation(Location m, char z = '*');
+  void writeCurrentLocation(Location m, char path = '*');
   void printMaze();
   bool canGo(string direction);
   bool goMove(string direction);
