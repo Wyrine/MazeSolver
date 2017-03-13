@@ -13,12 +13,6 @@ Stacks::Stacks(){
   findExit();
 }
 
-//If the last move made is not equal to the location of the exit
-//return false, otherwise return true
-bool Stacks::solved(){
-  return (moves.back() != exitLoc) ? false: true;
-}
-
 //loops through the rows and columns and checks all of the borders for
 //an open space. This assumes that all of the borders are characters
 //and that there is only one exit because as soon as this finds an exit it
@@ -39,21 +33,27 @@ void Stacks::findExit(){
       }
     }
   }
+  //if there are no exits on the boundaries then the program exits because
+  //there is no solution
   cout << "No exit found, Exiting.\n";
   exit(0);
 }
 
+//updates the current path of the maze and marks where
 void Stacks::writeCurrentLocation(Location m, char path){
   maze[m.curRow][m.curCol] = path;
   printMaze();
 }
 
+//iterates through the vector and prints the current look of the maze
 void Stacks::printMaze(){
-  for (vector<string>::iterator it = maze.begin(); it != maze.end(); it++){
+  for (vector<string>::iterator it = maze.begin(); it != maze.end(); it++)
     cout << *it << endl;
-  }
 }
 
+//canGo takes a string parameter being either "left", "right", "down",
+//or "up" and this checks to see if that direction is a Location
+//that can be moved to, if so then it returns true, otherwise false
 bool Stacks::canGo(string direction){
   if(direction == "left")
     return (maze[moves.back().curRow][moves.back().curCol-1] == ' ') ? true : false;
@@ -61,10 +61,13 @@ bool Stacks::canGo(string direction){
     return (maze[moves.back().curRow+1][moves.back().curCol] == ' ') ? true : false;
   else if(direction == "up")
     return (maze[moves.back().curRow-1][moves.back().curCol] == ' ') ? true : false;
-  else
+  else if(direction == "right")
     return (maze[moves.back().curRow][moves.back().curCol+1] == ' ') ? true : false;
+  return false;
 }
 
+//goMove moves the path of the direction string passed and returns the solved
+//state of the maze, true if solved, false otherwise
 bool Stacks::goMove(string direction){
   if (direction == "left"){
     Location m = {moves.back().curRow, moves.back().curCol-1};
@@ -94,5 +97,5 @@ bool Stacks::goMoveDecision(string direction){
   return goMove(direction);
 }
 void Stacks::popToDecision(){
-
+  
 }
