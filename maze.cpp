@@ -12,55 +12,41 @@ int main(int argv, char *argc[]){
 //createMaze Creates a stacks instance and then calls enterMaze
 void createMaze(){
   Stacks m;
-  enterMaze(m.maze, m.rows, m.cols);
+  //enterMaze(m.maze, m.rows, m.cols);
+  m.enterMaze();
+  travMaze(m);
 }
 
-//enterMaze sets the starting location to 0,1 and then creates two
-//decision vectors, moves and decisions, to be the two stacks used
-//to navigate the maze. Once that is done, we move to the starting
-//location and then call traverseMaze to do the rest of the work
-void enterMaze(vector<string> maze, const int rows, const int cols){
-  Location m = {0, 1};
-  vector<Location> moves, decisions;
-  moves.push_back(m);
-  writeCurrentLocation(moves.back(), maze);
-  traverseMaze(maze, moves, decisions);
-}
-
-//
-void writeCurrentLocation(Location m, vector<string>& maze, char z){
-  maze[m.curRow][m.curCol] = z;
-  printMaze(maze);
-}
-
-void printMaze(vector<string>& maze){
-  for (vector<string>::iterator it = maze.begin(); it != maze.end(); it++)
-    cout << *it << endl;
+void travMaze(Stacks m){
+  while(!m.solved()){
+    //this is to break infinite loop
+    return;
+  }
 }
 
 void makeMove(vector<string> maze, vector<Location> decisions, vector<Location> moves,
   Location m, bool pushDecisions){
   if(DOWN == ' ') {
     m.curRow++;
-    writeCurrentLocation(m, maze);
+//    writeCurrentLocation(m, maze);
     moves.push_back(m);
     if(pushDecisions) decisions.push_back(m);
   }
   else if(LEFT == ' ') {
     m.curCol--;
-    writeCurrentLocation(m, maze);
+//    writeCurrentLocation(m, maze);
     moves.push_back(m);
     if(pushDecisions) decisions.push_back(m);
   }
   else if(RIGHT == ' ') {
     m.curCol++;
-    writeCurrentLocation(m, maze);
+//    writeCurrentLocation(m, maze);
     moves.push_back(m);
     if(pushDecisions) decisions.push_back(m);
   }
   else{
     m.curRow--;
-    writeCurrentLocation(m, maze);
+//    writeCurrentLocation(m, maze);
     moves.push_back(m);
     if(pushDecisions) decisions.push_back(m);
   }
@@ -102,7 +88,7 @@ void rollBackDecisions(vector<Location> decisions,
   //a path that leads to a solution
   while((decisions.back() != moves.back()) && !moves.empty()){
     m = moves.back();
-    writeCurrentLocation(m, maze, 'x');
+//    writeCurrentLocation(m, maze, 'x');
     moves.pop_back();
   }
 }

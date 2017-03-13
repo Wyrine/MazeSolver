@@ -13,6 +13,19 @@ Stacks::Stacks(){
   findExit();
 }
 
+//initializing the start location and marking our current location
+//in the maze
+void Stacks::enterMaze(){
+  Location m = {0, 1};
+  moves.push_back(m);
+  writeCurrentLocation(m);
+}
+
+void Stacks::quitMaze(){
+  cout << "No solution found. Exiting.\n";
+  exit(0);
+}
+
 //loops through the rows and columns and checks all of the borders for
 //an open space. This assumes that all of the borders are characters
 //and that there is only one exit because as soon as this finds an exit it
@@ -35,8 +48,19 @@ void Stacks::findExit(){
   }
   //if there are no exits on the boundaries then the program exits because
   //there is no solution
-  cout << "No exit found, Exiting.\n";
-  exit(0);
+  quitMaze();
+}
+
+//this checks how many valid paths there are from the current Location
+//and returns that count. If an string is passed as a parameter then it
+//does not include that direction in the count
+int Stacks::checkDirections(string ignoredDirec){
+  string validDirecs[] = {"left", "down", "up", "right"};
+  int validPaths = 0;
+  for(int i=0; i < 4; i++)
+    if(validDirecs[i] != ignoredDirec && canGo(validDirecs[i]))
+      validPaths++;
+  return validPaths;
 }
 
 //updates the current path of the maze and marks where
@@ -96,6 +120,11 @@ bool Stacks::goMoveDecision(string direction){
   //bool returnBool = goMove(direction);
   return goMove(direction);
 }
+
 void Stacks::popToDecision(){
-  
+  do{
+    if(moves.empty() || decisions.empty()) quitMaze();
+    writeCurrentLocation(moves.back(), 'x');
+    moves.pop_back();
+  }while(decisions.back() != moves.back());
 }

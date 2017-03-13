@@ -7,9 +7,7 @@
 #define DOWN maze[m.curRow+1][m.curCol]
 
 void createMaze();
-void enterMaze(vector<string> maze, const int rows, const int cols);
-void writeCurrentLocation(Location m, vector<string> &maze, char z = '*');
-void printMaze(vector<string>& maze);
+void travMaze(Stacks m);
 void traverseMaze(vector<string> maze, vector<Location> moves,
   vector<Location> decision);
 bool checkSurroundings(vector<string> maze, Location m, bool& fullSurroundings);
