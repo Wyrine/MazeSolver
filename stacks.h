@@ -1,7 +1,12 @@
 #pragma once
 #include "file.h"
 
-enum Paths{LEFT=0, DOWN, UP, RIGHT};
+//l = left
+//d = down
+//u = up
+//r = right
+//none = no path
+enum Paths{l, d, u, r, none};
 
 struct Location{
   int curRow, curCol;
@@ -18,18 +23,16 @@ public:
   vector<Location> decisions, moves;
   int rows, cols;
   Stacks();
-  //initializing the starting location to 0,1
   void enterMaze();
   //If the last move made is not equal to the location of the exit
   //return false, otherwise return true
   bool solved(){ return (moves.back() != exitLoc) ? false: true; }
-  void writeCurrentLocation(Location m, char path = '*');
+  void writeCurrentLocation(Location m, char mark = '*');
   void printMaze();
   bool canGo(Paths direction);
   void quitMaze();
-  int checkDirections(Paths ignoredDirec);
-  bool goMove(Paths direction);
-  //I think this function is useless
-  bool goMoveDecision(Paths direction);
+  int checkDirections(Paths &validPath);
+  void goMove(Paths direction, int numPaths);
+  void goMoveDecision();
   void popToDecision();
 };
